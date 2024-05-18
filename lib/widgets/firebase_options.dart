@@ -32,40 +32,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-      apiKey: "AIzaSyCmlExUHuuDafch9vGLGmsjXK2bmITJ4IU",
-      authDomain: "task-management-96ba9.firebaseapp.com",
-      projectId: "task-management-96ba9",
-      storageBucket: "task-management-96ba9.appspot.com",
-      messagingSenderId: "745775452168",
-      appId: "1:745775452168:web:d20e6b4122f480a39b01bd",
-      measurementId: "G-HN4RQ1RZ8R");
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: "",
+      measurementId: "");
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: "AIzaSyCmlExUHuuDafch9vGLGmsjXK2bmITJ4IU",
-    appId: "1:745775452168:web:d20e6b4122f480a39b01bd",
-    messagingSenderId: '745775452168',
-    projectId: "task-management-96ba9",
-    databaseURL: 'https://task-management-96ba9-default-rtdb.firebaseio.com/',
-    storageBucket: "task-management-96ba9.appspot.com",
+    apiKey: "",
+    appId: "",
+    messagingSenderId: '',
+    projectId: "",
+    databaseURL: '',
+    storageBucket: "",
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: "AIzaSyCmlExUHuuDafch9vGLGmsjXK2bmITJ4IU",
-    appId: "1:745775452168:web:d20e6b4122f480a39b01bd",
-    messagingSenderId: '745775452168',
-    projectId: "task-management-96ba9",
-    databaseURL: 'https://task-management-96ba9-default-rtdb.firebaseio.com/',
-    storageBucket: "task-management-96ba9.appspot.com",
-    iosBundleId: 'com.example.chatApp',
+     apiKey: "",
+    appId: "",
+    messagingSenderId: '',
+    projectId: "",
+    databaseURL: '',
+    storageBucket: "",
+    iosBundleId: '',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: "AIzaSyCmlExUHuuDafch9vGLGmsjXK2bmITJ4IU",
-    appId: "1:745775452168:web:d20e6b4122f480a39b01bd",
-    messagingSenderId: '745775452168',
-    projectId: "task-management-96ba9",
-    databaseURL: 'https://task-management-96ba9-default-rtdb.firebaseio.com/',
-    storageBucket: "task-management-96ba9.appspot.com",
-    iosBundleId: 'com.example.chatApp.RunnerTests',
+     apiKey: "",
+    appId: "",
+    messagingSenderId: '',
+    projectId: "",
+    databaseURL: '',
+    storageBucket: "",
+    iosBundleId: '',
   );
 }

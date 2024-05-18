@@ -161,7 +161,7 @@
 // }
 import 'dart:io';
 
-import 'package:chat_app/image_picker.dart';
+import 'package:chat_app/widgets/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
