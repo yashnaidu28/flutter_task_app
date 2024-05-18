@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "252772746622",
+    "firebase_url": "https://flutter-chat-app-3d996-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "flutter-chat-app-3d996",
+    "storage_bucket": "flutter-chat-app-3d996.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252772746622:android:cc7c0dd47bd432a71b1f2f",
+        "android_client_info": {
+          "package_name": "task.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj3SNQ3_-cVu2QWUPnkkX7ySJk_vuQLOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
