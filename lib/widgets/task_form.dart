@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
-import 'package:timezone/timezone.dart' as tz;
 
 class AddTaskScreen extends StatefulWidget {
   final DatabaseReference database;
@@ -27,7 +26,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   late String _description;
   late String _expectedDuration;
   DateTime? _deadline;
-  bool _isCompleted = false;
 
   @override
   void initState() {
@@ -36,8 +34,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       _title = widget.task!['title'];
       _description = widget.task!['description'];
       _expectedDuration = widget.task!['expectedDuration'] ?? '';
-      _deadline = widget.task!['deadline'] != null ? DateTime.parse(widget.task!['deadline']) : null;
-      _isCompleted = widget.task!['status'] ?? false;
+      _deadline = widget.task!['deadline'] != null
+          ? DateTime.parse(widget.task!['deadline'])
+          : null;
     } else {
       _title = '';
       _description = '';
@@ -53,41 +52,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       lastDate: DateTime(2101),
     );
     if (picked != null) {
-      // ignore: use_build_context_synchronously
       final TimeOfDay? time = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.fromDateTime(_deadline ?? DateTime.now()),
       );
       if (time != null) {
         setState(() {
-          _deadline = DateTime(picked.year, picked.month, picked.day, time.hour, time.minute);
+          _deadline = DateTime(
+              picked.year, picked.month, picked.day, time.hour, time.minute);
         });
       }
     }
-  }
-
-  Future<void> _scheduleNotification(DateTime deadline) async {
-    final DateTime scheduledTime = deadline.subtract(const Duration(minutes: 10));
-    final tz.TZDateTime scheduledNotificationDateTime = tz.TZDateTime.from(scheduledTime, tz.local);
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'task_reminder_channel',
-      'Task Reminders',
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'ticker',
-    );
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-    await widget.flutterLocalNotificationsPlugin.zonedSchedule(
-      0,
-      'Task Reminder',
-      'You have a task due in 10 minutes',
-      scheduledNotificationDateTime,
-      platformChannelSpecifics,
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-    );
   }
 
   Future<void> _saveTask() async {
@@ -98,7 +73,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         'description': _description,
         'deadline': _deadline?.toIso8601String(),
         'expectedDuration': _expectedDuration,
-        'status': _isCompleted,
       };
 
       if (widget.taskKey != null) {
@@ -107,11 +81,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         await widget.database.push().set(taskData);
       }
 
-      if (_deadline != null) {
-        await _scheduleNotification(_deadline!);
-      }
-
-      Navigator.pop(context);
+      Navigator.pop(context, true); // Return true to indicate success
     }
   }
 
@@ -119,8 +89,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.task != null ? 'Edit Task' : 'Add Task',),
-        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(widget.task != null ? 'Edit Task' : 'Add Task'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -130,12 +99,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             children: [
               TextFormField(
                 initialValue: _title,
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),  // Rounded borders
-                  ),
-                ),
+                decoration: InputDecoration(labelText: 'Title'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a title';
@@ -149,12 +113,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               SizedBox(height: 16),
               TextFormField(
                 initialValue: _description,
-                decoration: InputDecoration(
-                  labelText: 'Description',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),  // Rounded borders
-                  ),
-                ),
+                decoration: InputDecoration(labelText: 'Description'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a description';
@@ -169,11 +128,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               TextFormField(
                 initialValue: _expectedDuration,
                 decoration: InputDecoration(
-                  labelText: 'Expected Duration (e.g., 2 hours)',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),  // Rounded borders
-                  ),
-                ),
+                    labelText: 'Expected Duration (e.g., 2 hours)'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the expected duration';
@@ -193,9 +148,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       labelText: _deadline == null
                           ? 'Set Deadline'
                           : 'Deadline: ${DateFormat('yyyy-MM-dd – kk:mm').format(_deadline!)}',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),  // Rounded borders
-                      ),
                       suffixIcon: Icon(Icons.timer),
                     ),
                   ),

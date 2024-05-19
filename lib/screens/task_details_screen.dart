@@ -20,14 +20,13 @@ class TaskDetailScreen extends StatelessWidget {
 
   Future<void> _deleteTask(BuildContext context) async {
     await database.child(taskKey).remove();
-    Navigator.pop(context);
+    Navigator.pop(context, true); // Return true to indicate deletion
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
         title: Text(task['title']),
         actions: [
           IconButton(
@@ -39,11 +38,10 @@ class TaskDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: 
-          Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             const Text(
+              const Text(
                 'Task Details',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
@@ -74,8 +72,8 @@ class TaskDetailScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async {
+                    final result = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => AddTaskScreen(
@@ -87,6 +85,10 @@ class TaskDetailScreen extends StatelessWidget {
                         ),
                       ),
                     );
+                    if (result == true) {
+                      Navigator.pop(
+                          context, true); // Return true to indicate update
+                    }
                   },
                   child: const Text('Edit Task'),
                 ),
@@ -104,7 +106,7 @@ class TaskDetailScreen extends StatelessWidget {
       children: [
         Text(
           title,
-          style:const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
         Text(
